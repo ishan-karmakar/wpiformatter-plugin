@@ -6,4 +6,3 @@
  */
 
 rootProject.name = "wpiformatter"
-include("plugin")

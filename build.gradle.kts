@@ -8,7 +8,12 @@
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
     `java-gradle-plugin`
+
+    `maven-publish`
 }
+
+group = "ik.wpiformatter"
+version = "1.0"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -23,14 +28,23 @@ dependencies {
 }
 
 gradlePlugin {
-    // Define the plugin
-    val formatter by plugins.creating {
-        id = "ik.wpiformatter"
-        implementationClass = "ik.wpiformatter.WpiformatterPlugin"
+    plugins {
+        create("wpiformatter") {
+            id = "ik.wpiformatter"
+            implementationClass = "ik.wpiformatter.WpiformatterPlugin"
+        }
     }
 }
 
 tasks.named<Test>("test") {
     // Use JUnit Jupiter for unit tests.
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri(layout.buildDirectory.dir("repos/releases"))
+        }
+    }
 }
